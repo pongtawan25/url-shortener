@@ -3,9 +3,14 @@ const express = require("express");
 const router = express.Router();
 const ShortUrl = require("../models/shortUrl");
 
+// router.get("/", async (req, res) => {
+//     const shortUrl = await ShortUrl.find();
+//   });
+
 router.get("/:shortUrls", async (req, res) => {
   const { shortUrls } = req.params;
   const shortUrl = await ShortUrl.findOne({ short: shortUrls });
+  console.log(shortUrl);
   if (shortUrl == null) {
     res.send("Url Not Found");
   }
