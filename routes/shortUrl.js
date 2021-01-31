@@ -1,3 +1,4 @@
+const { json } = require("body-parser");
 const express = require("express");
 const router = express.Router();
 const ShortUrl = require("../models/shortUrl");
@@ -15,7 +16,7 @@ router.post("/shortUrls", async (req, res) => {
   const { fullUrl } = req.body;
   await ShortUrl.create({ full: fullUrl });
   const shortUrl = await ShortUrl.findOne({ full: fullUrl });
-  console.log('Created Successful');
+  console.log(JSON.parse(JSON.stringify(shortUrl)));
   res.json({ full: fullUrl, short: "localhost:5000/" + shortUrl.short });
 });
 module.exports = router;

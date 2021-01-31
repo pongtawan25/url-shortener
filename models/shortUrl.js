@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
-const shortId = require("shortid");
+const {customAlphabet} = require("nanoid");
 
+const nanoid = customAlphabet('1234567890abcdefhijklmnopqrstuvwxyz',5)
 const shortUrlSchema = new mongoose.Schema({
   full: {
     type: String,
@@ -9,7 +10,7 @@ const shortUrlSchema = new mongoose.Schema({
   short: {
     type: String,
     required: true,
-    default: shortId.generate,
+    default: () => nanoid(),
   }
 });
 
