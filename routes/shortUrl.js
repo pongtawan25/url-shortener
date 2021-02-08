@@ -2,30 +2,30 @@ const express = require("express");
 const router = express.Router();
 const ShortUrl = require("../models/shortUrl");
 
-// router.get("/", async (req, res) => {
-//     const shortUrl = await ShortUrl.find();
-//   });
+router.get("/", (req, res) => {
+  res.send("Wellcom to URL Shortener");
+});
 
-router.get("/:shortUrls", async (req, res) => {
+router.get("/l/:shortUrls", async (req, res) => {
   const { shortUrls } = req.params;
   const shortUrl = await ShortUrl.findOne({ short: shortUrls });
   if (shortUrl == null) {
     res.send("Url Not Found");
   }
-  res.redirect(shortUrl.full);
+  res.status(302).redirect(shortUrl.full);
 });
 
-router.post("/shortUrls", async (req, res) => {
-  const { fullUrl } = req.body;
-  const shortUrl = await ShortUrl.findOne({ full: fullUrl });
+router.post("/link", async (req, res) => {
+  const { url } = req.body;
+  const shortUrl = await ShortUrl.findOne({ full: url });
   if (shortUrl) {
-    // res.send("CREATED success");
-    res.json({ full: fullUrl, short: "localhost:5000/" + shortUrl.short });
+    // Created already
+    res.status(200).json({ link: "localhost:5000/l/" + shortUrl.short });
   } else {
-    const data = await ShortUrl.create({ full: fullUrl });
-    // res.send("CREATED ALREADY");
-    const { full ,short} = data;
-    res.json({ full: full, short: "localhost:5000/" + short });
+    // Not Create
+    const data = await ShortUrl.create({ full: url });
+    const { short } = data;
+    res.status(200).json({ link: "localhost:5000/l/" + short });
   }
 });
 module.exports = router;
