@@ -4,16 +4,17 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "dev": "nodemon server.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongoose": "^5.11.14",
-    "nanoid": "^3.1.20",
-    "shortid": "^2.2.16"
+    "nanoid": "^3.1.20"
   },
   "devDependencies": {
     "nodemon": "^2.0.7"

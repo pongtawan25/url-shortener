@@ -20,12 +20,13 @@ router.post("/link", async (req, res) => {
   const shortUrl = await ShortUrl.findOne({ full: url });
   if (shortUrl) {
     // Created already
-    res.status(200).json({ link: "localhost:5000/l/" + shortUrl.short });
+    res.status(200).json({ link: "sh.a2.tnpl.me/l/" + shortUrl.short });
   } else {
     // Not Create
     const data = await ShortUrl.create({ full: url });
     const { short } = data;
-    res.status(200).json({ link: "localhost:5000/l/" + short });
+    res.status(200).json({ link: "sh.a2.tnpl.me/l/" + short });
   }
 });
+
 module.exports = router;
