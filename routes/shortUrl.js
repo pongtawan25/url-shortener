@@ -16,21 +16,36 @@ router.get("/l/:shortUrls", async (req, res) => {
 });
 
 router.post("/link", async (req, res) => {
-  const url  = req.body.full;
+  const url = req.body.full;
   const shortUrl = await ShortUrl.findOne({ full: url });
+  let checkUrl = url.substring(0, 8);
   // console.log(url);
-  // console.log(shortUrl);
-  if (shortUrl != null) {
-    // Created already
-    console.log("1");
-    res.status(200).json({ link: `sh.${process.env.VM_NAME}.tnpl.me/l/` + shortUrl.short });
+  if (!url) {
+    res.status(404).json({
+      status: "Bad Request",
+      message:"Not found any request from user, please try again later"
+    });
+  }else if(checkUrl !== 'https://'){
+    res.status(404).json({
+      status: "Bad Request",
+      message: `Full link is incorrect, please start with 'https://' `
+    });
   } else {
-    // Not Create
-    // console.log("2");
-    const data = await ShortUrl.create({ full: url });
-    const { short } = data;
-    // console.log(url);
-    res.status(200).json({ link:  `sh.${process.env.VM_NAME}.tnpl.me/l/` + short });
+    if (shortUrl != null) {
+      res.status(200).json({
+        status: "OK",
+        message: `sh.${process.env.VM_NAME}.tnpl.me/l/` + shortUrl.short,
+      });
+    } else {
+      const data = await ShortUrl.create({ full: url });
+      const { short } = data;
+      res
+        .status(201)
+        .json({
+          status: "Created",
+          message: `sh.${process.env.VM_NAME}.tnpl.me/l/` + short,
+        });
+    }
   }
 });
 
