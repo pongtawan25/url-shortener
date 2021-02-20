@@ -2,10 +2,6 @@ const express = require("express");
 const router = express.Router();
 const ShortUrl = require("../models/shortUrl");
 
-router.get("/", (req, res) => {
-  res.send("Wellcom to URL Shortener");
-});
-
 router.get("/l/:shortUrls", async (req, res) => {
   const { shortUrls } = req.params;
   const shortUrl = await ShortUrl.findOne({ short: shortUrls });
@@ -16,7 +12,7 @@ router.get("/l/:shortUrls", async (req, res) => {
 });
 
 router.post("/link", async (req, res) => {
-  const url = req.body.full;
+  const { url } = req.body;
   const shortUrl = await ShortUrl.findOne({ full: url });
   let checkUrl = url.substring(0, 8);
   if (!url) {
@@ -32,15 +28,13 @@ router.post("/link", async (req, res) => {
   } else {
     if (shortUrl != null) {
       res.status(200).json({
-        status: "OK",
-        message: `sh.${process.env.VM_NAME}.tnpl.me/l/` + shortUrl.short,
+        link: `sh.${process.env.VM_NAME}.tnpl.me/l/` + shortUrl.short,
       });
     } else {
       const data = await ShortUrl.create({ full: url });
       const { short } = data;
       res.status(201).json({
-        status: "Created",
-        message: `sh.${process.env.VM_NAME}.tnpl.me/l/` + short,
+        link: `sh.${process.env.VM_NAME}.tnpl.me/l/` + short,
       });
     }
   }
