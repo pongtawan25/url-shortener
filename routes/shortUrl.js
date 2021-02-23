@@ -29,13 +29,13 @@ router.post("/link", async (req, res) => {
   } else {
     if (shortUrl != null) {
       res.status(200).json({
-        link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${shortUrl.short}`,
+        link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${shortUrl._id}`,
       });
     } else {
       const data = await ShortUrl.create({ full: url });
-      const { short } = data;
+      const { _id } = data;
       res.status(201).json({
-        link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${short}`,
+        link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${_id}`,
       });
     }
   }
