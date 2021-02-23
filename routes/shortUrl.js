@@ -4,7 +4,8 @@ const ShortUrl = require("../models/shortUrl");
 
 router.get("/l/:shortUrls", async (req, res) => {
   const { shortUrls } = req.params;
-  const shortUrl = await ShortUrl.findOne({ short: shortUrls });
+  // const shortUrl = await ShortUrl.findOne({ short: shortUrls });
+  const shortUrl = await ShortUrl.findById(shortUrls);
   if (shortUrl == null) {
     res.send("Url Not Found");
   }
