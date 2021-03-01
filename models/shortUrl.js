@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const { customAlphabet } = require("nanoid");
 
-const nanoid = customAlphabet("1234567890abcdefghijklmnopqrstuvwxyz", 5);
+const nanoid = customAlphabet( "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",5);
 const shortUrlSchema = new mongoose.Schema({
   url: {
     type: String,
@@ -10,11 +10,12 @@ const shortUrlSchema = new mongoose.Schema({
   link: {
     type: String,
     required: true,
-    default: () => nanoid(),
+    default: nanoid
   },
-  visit:{
+  visit: {
     type: Number,
-  }
+    default: 0,
+  },
 });
 
 module.exports = mongoose.model("ShortUrl", shortUrlSchema);
