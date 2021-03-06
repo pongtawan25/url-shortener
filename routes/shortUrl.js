@@ -20,7 +20,6 @@ router.get("/l/:shortUrls/stats", async (req, res) => {
 router.post("/link", async (req, res) => {
   const { url } = req.body;
   const shortUrl = await ShortUrl.findOne({ url });
-
   if (shortUrl) {
     res.status(200).json({
       link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${shortUrl.link}`,
@@ -28,12 +27,10 @@ router.post("/link", async (req, res) => {
   } else {
     const data = await ShortUrl.create({ url: url });
     const { link } = data;
-
-    res.status(201).json({
+    res.status(200).json({
       link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${link}`,
     });
   }
-  // }
 });
 
 module.exports = router;
