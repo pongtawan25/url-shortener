@@ -20,7 +20,7 @@ router.get("/l/:shortUrls/stats", async (req, res) => {
 
 router.post("/link", async (req, res) => {
   const { url } = req.body;
-  const shortUrl = await ShortUrl.findOne({ url });
+  const shortUrl = await ShortUrl.findOne({ url }).sort({url : -1});
   if (shortUrl) {
   console.log("Server 1: Post");
    res.status(200).json({
