@@ -20,20 +20,20 @@ router.get("/l/:shortUrls/stats", async (req, res) => {
 
 router.post("/link", async (req, res) => {
   const { url } = req.body;
-  const shortUrl = await ShortUrl.findOne({ url }).sort({url : -1});
-  if (shortUrl) {
-  console.log("Server 1: Post");
-   res.status(200).json({
-    link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${shortUrl.link}`,
-   });
-  } else {
+  // const shortUrl = await ShortUrl.findOne({ url });
+  // if (shortUrl) {
+  // console.log("Server 1: Post");
+  //  res.status(200).json({
+  //   link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${shortUrl.link}`,
+  //  });
+  // } else {
    const data = await ShortUrl.create({ url: url });
    const { link } = data;
    console.log("Server 1: Post");
    res.status(200).json({
     link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${link}`,
    });
-  }
+  // }
 });
 
 module.exports = router;
