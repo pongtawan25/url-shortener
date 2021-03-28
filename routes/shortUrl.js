@@ -8,11 +8,7 @@ router.get("/l/:shortUrls", async (req, res) => {
     { link: shortUrls },
     { $inc: { visit: 1 } }
   );
-<<<<<<< HEAD
-  console.log("Server 1: Redirect");
-=======
   console.log("Server: Redirect");
->>>>>>> 088722becbfdf6bd3a07038fb5ec52887d839b18
   res.status(302).redirect(shortUrl.url);
 });
 
