@@ -23,25 +23,20 @@ router.get("/l/:shortUrls/stats", async (req, res) => {
 
 router.post("/link", async (req, res) => {
   const { url } = req.body;
-  // const shortUrl = await ShortUrl.findOne({ url });
-  // if (shortUrl) {
-  // console.log("Server 1: Post");
-  //  res.status(200).json({
-  //   link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${shortUrl.link}`,
-  //  });
-  // } else {
-  const data = await ShortUrl.findOneOrCreate({ url }, { url: url });
-  console.log("Server 1: Post");
-  return res.status(200).json({
-    link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${data.link}`,
-  });
-  // const data = await ShortUrl.create({ url: url });
-  //  const { link } = data;
-  //  console.log("Server 1: Post");
-  //  res.status(200).json({
-  //   link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${link}`,
-  //  });
-  // }
+  const shortUrl = await ShortUrl.findOne({ url });
+  if (!shortUrl) {
+    const data = await ShortUrl.create({ url: url });
+    const { link } = data;
+    console.log("Server 1: Post - 1");
+    res.status(200).json({
+      link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${link}`,
+    });
+  } else {
+    console.log("Server: Post - 2");
+    res.status(200).json({
+      link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${shortUrl.link}`,
+    });
+  }
 });
 
 module.exports = router;

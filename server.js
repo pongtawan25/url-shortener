@@ -15,9 +15,9 @@ const uri = `mongodb://10.0.0.7:27017/urlShortener`;
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
   poolSize: 200,
   useCreateIndex: true,
-  useFindAndModify: false,
   autoIndex: true,
   serverSelectionTimeoutMS: 5000,
   socketTimeoutMS: 45000,
@@ -28,5 +28,5 @@ app.use(routeShortUrl);
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
-  console.log("Server 1 is starting port : " + PORT);
+  console.log("Server is starting port : " + PORT);
 });
