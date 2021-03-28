@@ -27,14 +27,16 @@ router.post("/link", async (req, res) => {
   if (!shortUrl) {
     const data = await ShortUrl.create({ url: url });
     const { link } = data;
-    console.log("Server: Post");
+    console.log("Server: Post - 1");
     res.status(200).json({
       link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${link}`,
     });
+  } else {
+    console.log("Server: Post - 2");
+    res.status(200).json({
+      link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${shortUrl.link}`,
+    });
   }
-  res.status(200).json({
-    link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${shortUrl.link}`,
-  });
 });
 
 module.exports = router;
