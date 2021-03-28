@@ -8,19 +8,19 @@ const nanoid = customAlphabet(
 const shortUrlSchema = new mongoose.Schema({
   url: {
     type: String,
-    required: true,
     unique: true,
+    required: true,
   },
   link: {
     type: String,
-    required: true,
     unique: true,
+    required: true,
     default: () => nanoid(),
   },
   visit: {
     type: Number,
-    default: 0,
     required: true,
+    default: 0,
   },
 });
 

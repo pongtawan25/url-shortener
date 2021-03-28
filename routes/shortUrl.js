@@ -23,18 +23,16 @@ router.get("/l/:shortUrls/stats", async (req, res) => {
 
 router.post("/link", async (req, res) => {
   const { url } = req.body;
-  const shortUrl = await ShortUrl.findOne({ url });
-  if (!shortUrl) {
+  console.log("Server: Post");
+  try {
     const data = await ShortUrl.create({ url: url });
-    const { link } = data;
-    console.log("Server 1: Post - 1");
     res.status(200).json({
-      link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${link}`,
+      link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${data.link}`,
     });
-  } else {
-    console.log("Server: Post - 2");
+  } catch (error) {
+    const data = await ShortUrl.findOne({ url: url });
     res.status(200).json({
-      link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${shortUrl.link}`,
+      link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${data.link}`,
     });
   }
 });
