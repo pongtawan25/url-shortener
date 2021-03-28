@@ -11,7 +11,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.x39qb.mongodb.net/${process.env.MONGO_DB}?retryWrites=true&w=majority`;
-const uri = `mongodb://10.0.0.7:27017/urlShortener`;
+const uri = `mongodb://13.76.25.233:27017/urlShortener`;
 mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
