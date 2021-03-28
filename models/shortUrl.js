@@ -1,6 +1,10 @@
 const mongoose = require("mongoose");
 const { customAlphabet } = require("nanoid");
-const nanoid = customAlphabet("1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",5);
+const nanoid = customAlphabet(
+  "1234567890abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ",
+  3
+);
+const findOneOrCreate = require("mongoose-findoneorcreate");
 
 const shortUrlSchema = new mongoose.Schema({
   url: {
@@ -18,5 +22,5 @@ const shortUrlSchema = new mongoose.Schema({
     required: true,
   },
 });
-
+shortUrlSchema.plugin(findOneOrCreate);
 module.exports = mongoose.model("ShortUrl", shortUrlSchema);
