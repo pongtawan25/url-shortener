@@ -8,14 +8,18 @@ router.get("/l/:shortUrls", async (req, res) => {
     { link: shortUrls },
     { $inc: { visit: 1 } }
   );
+<<<<<<< HEAD
   console.log("Server 1: Redirect");
+=======
+  console.log("Server: Redirect");
+>>>>>>> 088722becbfdf6bd3a07038fb5ec52887d839b18
   res.status(302).redirect(shortUrl.url);
 });
 
 router.get("/l/:shortUrls/stats", async (req, res) => {
   const { shortUrls } = req.params;
   const shortUrl = await ShortUrl.findOne({ link: shortUrls });
-  console.log("Server 1: Get Stat");
+  console.log("Server: Get Stat");
   res.status(200).json({
     visit: shortUrl.visit,
   });
