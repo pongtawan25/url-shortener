@@ -15,6 +15,7 @@ const shortUrlSchema = new mongoose.Schema({
     type: String,
     required: true,
     default: nanoid,
+    unique:true
   },
   visit: {
     type: Number,
