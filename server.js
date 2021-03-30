@@ -16,12 +16,12 @@ mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useFindAndModify: false,
-  poolSize: 200,
-  useCreateIndex: true,
-  autoIndex: true,
-  serverSelectionTimeoutMS: 5000,
-  socketTimeoutMS: 45000,
-  family: 4
+  // poolSize: 200,
+  // useCreateIndex: true,
+  // autoIndex: true,
+  // serverSelectionTimeoutMS: 5000,
+  // socketTimeoutMS: 45000,
+  // family: 4
 });
 
 app.use(routeShortUrl);
