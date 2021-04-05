@@ -1,6 +1,5 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const cors = require("cors");
 require("dotenv").config({ path: __dirname + "/.env" });
 var MongoClient = require("mongodb").MongoClient;
 const { nanoid } = require("nanoid");
