@@ -8,7 +8,6 @@ const { nanoid } = require("nanoid");
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-app.use(cors());
 
 const uri = `mongodb://${process.env.DB_IP}/?maxPoolSize=500&poolSize=400`;
 MongoClient.connect(uri, (error, client) => {
