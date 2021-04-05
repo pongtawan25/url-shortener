@@ -8,7 +8,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const uri = `mongodb://${process.env.DB_IP}/?maxPoolSize=500&poolSize=500`;
+const uri = `mongodb://${process.env.DB_IP}/?maxPoolSize=500&poolSize=450`;
 MongoClient.connect(uri, (error, client) => {
   if (error) throw error;
   var db = client.db("urlShortener");
@@ -24,7 +24,6 @@ MongoClient.connect(uri, (error, client) => {
       link: gen_id,
       visit: 0,
     });
-    console.log("Server post url");
     res.status(200).json({
       link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${gen_id}`, //sh.${process.env.VM_NAME}.tnpl.me
     });
@@ -34,7 +33,6 @@ MongoClient.connect(uri, (error, client) => {
     const result = await db
       .collection("shorturls")
       .findOneAndUpdate({ link: shortUrls }, { $inc: { visit: 1 } });
-      console.log("Server get url");
     return res.status(302).redirect(result.value.url);
   });
   app.get("/l/:shortUrls/stats", async (req, res) => {
