@@ -8,7 +8,7 @@ const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-const uri = `mongodb://${process.env.DB_IP}/?maxPoolSize=500&poolSize=400`;
+const uri = `mongodb://${process.env.DB_IP}/?maxPoolSize=600&poolSize=500`;
 MongoClient.connect(uri, (error, client) => {
   if (error) throw error;
   var db = client.db("urlShortener");
