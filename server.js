@@ -23,7 +23,12 @@ MongoClient.connect(uri, (error, client) => {
       url: url,
       link: gen_id,
       visit: 0,
-    });
+    }).then(()=>{
+      db.collection("shorturls").createIndex({
+        url:1,
+        link:1
+      });
+    })
     res.status(200).json({
       link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${gen_id}`, //sh.${process.env.VM_NAME}.tnpl.me
     });
