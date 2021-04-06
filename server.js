@@ -25,7 +25,6 @@ MongoClient.connect(uri, (error, client) => {
       visit: 0,
     }).then(()=>{
       db.collection("shorturls").createIndex({
-        url:1,
         link:1
       });
     })
