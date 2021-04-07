@@ -18,7 +18,7 @@ MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
   });
   app.post("/link", async (req, res) => {
     const { url } = req.body;
-    let gen_id = nanoid(3);
+    let gen_id = nanoid(6);
     try {
       await db.collection("shorturls").insertOne({
         url: url,
