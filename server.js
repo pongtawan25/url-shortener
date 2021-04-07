@@ -9,7 +9,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 const uri = `mongodb://${process.env.DB_IP}/?maxPoolSize=500&poolSize=450`;
-MongoClient.connect(uri, (error, client) => {
+MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
   if (error) throw error;
   var db = client.db("urlShortener");
 
@@ -19,14 +19,23 @@ MongoClient.connect(uri, (error, client) => {
   app.post("/link", async (req, res) => {
     const { url } = req.body;
     let gen_id = nanoid(3);
-    await db.collection("shorturls").insertOne({
+    const hasData = await db.collection("shorturls").findOne({
       url: url,
-      link: gen_id,
-      visit: 0,
     });
-    res.status(200).json({
-      link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${gen_id}`, //sh.${process.env.VM_NAME}.tnpl.me
-    });
+    if (!hasData) {
+      await db.collection("shorturls").insertOne({
+        url: url,
+        link: gen_id,
+        visit: 0,
+      });
+      res.status(200).json({
+        link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${gen_id}`, //sh.${process.env.VM_NAME}.tnpl.me
+      });
+    } else {
+      res.status(200).json({
+        link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${hasData.link}`, //sh.${process.env.VM_NAME}.tnpl.me
+      });
+    }
   });
   app.get("/l/:shortUrls", async (req, res) => {
     const { shortUrls } = req.params;
