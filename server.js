@@ -19,10 +19,7 @@ MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
   app.post("/link", async (req, res) => {
     const { url } = req.body;
     let gen_id = nanoid(3);
-    const hasData = await db.collection("shorturls").findOne({
-      url: url,
-    });
-    if (!hasData) {
+    try {
       await db.collection("shorturls").insertOne({
         url: url,
         link: gen_id,
@@ -31,9 +28,12 @@ MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
       res.status(200).json({
         link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${gen_id}`, //sh.${process.env.VM_NAME}.tnpl.me
       });
-    } else {
+    } catch (error) {
+      const data = await db.collection("shorturls").findOne({
+        url: url,
+      });
       res.status(200).json({
-        link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${hasData.link}`, //sh.${process.env.VM_NAME}.tnpl.me
+        link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${data.link}`, //sh.${process.env.VM_NAME}.tnpl.me
       });
     }
   });
