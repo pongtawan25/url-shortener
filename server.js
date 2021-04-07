@@ -1,8 +1,8 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-require("dotenv").config({ path: __dirname + "/.env" });
-var MongoClient = require("mongodb").MongoClient;
 const { nanoid } = require("nanoid");
+var MongoClient = require("mongodb").MongoClient;
+require("dotenv").config({ path: __dirname + "/.env" });
 
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -16,6 +16,7 @@ MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
   app.get("/", (req, res) => {
     res.send("Hello World, Url-shortener Test MongoDB");
   });
+
   app.post("/link", async (req, res) => {
     const { url } = req.body;
     let gen_id = nanoid(6);
@@ -26,17 +27,18 @@ MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
         visit: 0,
       });
       res.status(200).json({
-        link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${gen_id}`, //sh.${process.env.VM_NAME}.tnpl.me
+        link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${gen_id}`,
       });
     } catch (error) {
       const data = await db.collection("shorturls").findOne({
         url: url,
       });
       res.status(200).json({
-        link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${data.link}`, //sh.${process.env.VM_NAME}.tnpl.me
+        link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${data.link}`,
       });
     }
   });
+
   app.get("/l/:shortUrls", async (req, res) => {
     const { shortUrls } = req.params;
     const result = await db
@@ -44,6 +46,7 @@ MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
       .findOneAndUpdate({ link: shortUrls }, { $inc: { visit: 1 } });
     return res.status(302).redirect(result.value.url);
   });
+
   app.get("/l/:shortUrls/stats", async (req, res) => {
     const { shortUrls } = req.params;
     const shortUrl = await db
@@ -53,7 +56,7 @@ MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
       visit: shortUrl.visit,
     });
   });
-  //! : เป็นการเชื่อม port ว่าเราจะไป portไหน
+
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => {
     console.log("server started : " + PORT);
