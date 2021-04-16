@@ -1,12 +1,11 @@
 const express = require("express");
-const bodyParser = require("body-parser");
 const { nanoid } = require("nanoid");
 var MongoClient = require("mongodb").MongoClient;
 require("dotenv").config({ path: __dirname + "/.env" });
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 const uri = `mongodb://${process.env.DB_IP}/?maxPoolSize=500&poolSize=450`;
 MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
