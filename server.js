@@ -26,14 +26,14 @@ MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
         visit: 0,
       });
       res.status(200).json({
-        link: `http://sh.a2.tnpl.me/l/${gen_id}`,
+        link: `http://shortener.trafficmanager.net/l/${gen_id}`,
       });
     } catch (error) {
       const data = await db.collection("shorturls").findOne({
         url: url,
       });
       res.status(200).json({
-        link: `http://sh.a2.tnpl.me/l/${data.link}`,
+        link: `http://shortener.trafficmanager.net/l/${data.link}`,
       });
     }
   });
