@@ -7,13 +7,13 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-const uri = `mongodb://${process.env.DB_IP}/urlShortener/?poolSize=500`;
+const uri = `mongodb://${process.env.DB_IP}/urlShortener/?poolSize=400`;
 MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
   if (error) throw error;
   var db = client.db("urlShortener");
 
   app.get("/", (req, res) => {
-    res.send("Hello World, Url-shortener Test MongoDB");
+    res.send("Welcome to Url-Shortener API service");
   });
 
   app.post("/link", async (req, res) => {
@@ -28,7 +28,7 @@ MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
           visit: 0,
         },
         {
-          writeConcern: { w: 0, j: true, wtimeout: 10 },
+          writeConcern: { w: 0, j: true, wtimeout: 5 },
           ordered: false,
         }
       );
