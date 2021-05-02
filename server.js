@@ -28,8 +28,7 @@ MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
           visit: 0,
         },
         {
-          writeConcern: { w: 0, j: true, wtimeout: 5 },
-          ordered: false,
+          writeConcern: { w: 0, j: true },
         }
       );
       res.status(200).json({
