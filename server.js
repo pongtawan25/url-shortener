@@ -27,7 +27,9 @@ MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
           link: gen_id,
           visit: 0,
         },
-  
+        {
+          writeConcern: { w: 0, j: true },
+        }
       );
       res.status(200).json({
         link: `http://sh.a2.tnpl.me/l/${gen_id}`,
