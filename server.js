@@ -20,7 +20,7 @@ MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
     const { url } = req.body;
     let gen_id = nanoid(6);
   
-    try {
+    // try {
        await db.collection("shorturls").insertOne(
         {
           url: url,
@@ -32,14 +32,14 @@ MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
       res.status(200).json({
         link: `http://sh.a2.tnpl.me/l/${gen_id}`,
       });
-    } catch (error) {
-      const data = await db.collection("shorturls").findOne({
-        url: url,
-      });
-      res.status(200).json({
-        link: `http://sh.a2.tnpl.me/l/${data.link}`,
-      });
-    }
+    // } catch (error) {
+    //   const data = await db.collection("shorturls").findOne({
+    //     url: url,
+    //   });
+    //   res.status(200).json({
+    //     link: `http://sh.a2.tnpl.me/l/${data.link}`,
+    //   });
+    // }
   });
 
   app.get("/l/:shortUrls", async (req, res) => {
