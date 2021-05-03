@@ -18,18 +18,18 @@ MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
 
   app.post("/link", async (req, res) => {
     const { url } = req.body;
-    let gen_id = nanoid(5);
-   
+    let gen_id = nanoid(6);
+    let result;
     try {
-     await db.collection("shorturls").insertOne(
+      result = await db.collection("shorturls").insertOne(
         {
           url: url,
           link: gen_id,
           visit: 0,
         },
-        // {
-        //   writeConcern: { w: 0, j: true },
-        // }
+        {
+          writeConcern: { w: 0, j: true },
+        }
       );
       res.status(200).json({
         link: `http://sh.a2.tnpl.me/l/${gen_id}`,
