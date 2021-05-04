@@ -18,7 +18,7 @@ MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
 
   app.post("/link", async (req, res) => {
     const { url } = req.body;
-    let gen_id = nanoid();
+    let gen_id = nanoid(6);
     try {
       await db.collection("shorturls").insertOne({
         url: url,
@@ -55,9 +55,9 @@ MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
       visit: shortUrl.visit,
     });
   });
+});
 
-  const PORT = process.env.PORT || 5000;
-  app.listen(PORT, () => {
-    console.log("server started : " + PORT);
-  });
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log("server started : " + PORT);
 });
