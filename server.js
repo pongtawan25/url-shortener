@@ -7,7 +7,7 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-const uri = `mongodb://${process.env.DB_IP}/?poolSize=400`;
+const uri = `mongodb://${process.env.DB_IP}/?poolSize=1000`;
 MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
   if (error) throw error;
   var db = client.db("urlShortener");
@@ -18,19 +18,13 @@ MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
 
   app.post("/link", async (req, res) => {
     const { url } = req.body;
-    let gen_id = nanoid(6);
-    let result
+    let gen_id = nanoid();
     try {
-       result =  await db.collection("shorturls").insertOne(
-        {
-          url: url,
-          link: gen_id,
-          visit: 0,
-        },
-        {
-          writeConcern: { w: 0, j: true },
-        }
-      );
+      await db.collection("shorturls").insertOne({
+        url: url,
+        link: gen_id,
+        visit: 0,
+      });
       res.status(200).json({
         link: `http://sh.a2.tnpl.me/l/${gen_id}`,
       });
