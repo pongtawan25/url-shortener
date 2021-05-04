@@ -1,5 +1,6 @@
 const express = require("express");
 var MongoClient = require("mongodb").MongoClient;
+const { nanoid } = require('nanoid')
 require("dotenv").config({ path: __dirname + "/.env" });
 
 const app = express();
@@ -17,18 +18,21 @@ MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
 
   app.post("/link", async (req, res) => {
     const { url } = req.body;
-   
-    function randomId(length) {
-      var result = "";
-      var characters =
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-      var charactersLength = characters.length;
-      for (var i = 0; i < length; i++) {
-        result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      }
-      return result;
-    }
-    let gen_id = randomId(6);
+
+    // function randomId(length) {
+    //   var result = "";
+    //   var characters =
+    //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    //   var charactersLength = characters.length;
+    //   for (var i = 0; i < length; i++) {
+    //     result += characters.charAt(
+    //       Math.floor(Math.random() * charactersLength)
+    //     );
+    //   }
+    //   return result;
+    // }
+
+    let gen_id = nanoid(6);
     try {
       await db.collection("shorturls").insertOne({
         url: url,
