@@ -8,7 +8,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
 
-const uri = `mongodb://${process.env.DB_IP}/?poolSize=450`;
+const uri = `mongodb://${process.env.DB_IP}/?poolSize=350`;
 MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
   if (error) throw error;
   var db = client.db("urlShortener");
