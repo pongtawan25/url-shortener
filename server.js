@@ -1,14 +1,14 @@
 const express = require("express");
+const { nanoid } = require("nanoid");
 var MongoClient = require("mongodb").MongoClient;
-const { nanoid } = require('nanoid')
 require("dotenv").config({ path: __dirname + "/.env" });
 
 const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-const uri = `mongodb://${process.env.DB_IP}/`;
-MongoClient.connect(uri, { useUnifiedTopology: true, poolSize:100, maxPoolSize:100 }, (error, client) => {
+const uri = `mongodb://${process.env.DB_IP}/?maxPoolSize=500&poolSize=450`;
+MongoClient.connect(uri, { useUnifiedTopology: true }, (error, client) => {
   if (error) throw error;
   var db = client.db("urlShortener");
 
@@ -26,14 +26,14 @@ MongoClient.connect(uri, { useUnifiedTopology: true, poolSize:100, maxPoolSize:1
         visit: 0,
       });
       res.status(200).json({
-        link: `http://sh.a2.tnpl.me/l/${gen_id}`,
+        link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${gen_id}`,
       });
     } catch (error) {
       const data = await db.collection("shorturls").findOne({
         url: url,
       });
       res.status(200).json({
-        link: `http://sh.a2.tnpl.me/l/${data.link}`,
+        link: `http://sh.${process.env.VM_NAME}.tnpl.me/l/${data.link}`,
       });
     }
   });
