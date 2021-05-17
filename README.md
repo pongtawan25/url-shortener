@@ -1,4 +1,4 @@
 # url-shortener
 
 ## architecture
-![Image](./architecture.PNG)
+![Image](./Architecture.PNG)
